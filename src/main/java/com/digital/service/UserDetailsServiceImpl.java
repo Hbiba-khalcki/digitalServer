@@ -1,9 +1,14 @@
 package com.digital.service;
 
 
+
 import com.digital.entity.User;
-import com.digital.repository.RoleRepository;
+
+import com.digital.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
-    RoleRepository userRepository;
+    UserRepository userRepository;
 
     @Override
     @Transactional
