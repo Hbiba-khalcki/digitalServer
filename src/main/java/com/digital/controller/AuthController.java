@@ -4,13 +4,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import javax.validation.Valid;
-
 import com.digital.config.jwt.JwtUtils;
 import com.digital.entity.ERole;
 import com.digital.entity.Role;
-
 import com.digital.entity.User;
 import com.digital.service.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import com.digital.payload.request.LoginRequest;
 import com.digital.payload.request.SignupRequest;
 import com.digital.payload.response.JwtResponse;
@@ -38,6 +30,7 @@ import com.digital.repository.UserRepository;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
     @Autowired
     AuthenticationManager authenticationManager;
 
@@ -60,10 +53,11 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
+         String jwt = jwtUtils.generateJwtToken(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
+        List<String> roles = userDetails.getAuthorities()
+                .stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
@@ -73,7 +67,22 @@ public class AuthController {
                 userDetails.getEmail(),
                 roles));
     }
-
+    @GetMapping("/bootstrap")
+    public String bootstraprols(){
+        Role role1 = new Role();
+        role1.setId("1");
+        role1.setName(ERole.ROLE_ADMIN);
+        Role role2 = new Role();
+        role2.setId("2");
+        role2.setName(ERole.ROLE_EXPERT);
+        Role role3 = new Role();
+        role3.setId("3");
+        role3.setName(ERole.ROLE_USER);
+        roleRepository.save(role1);
+        roleRepository.save(role2);
+        roleRepository.save(role3);
+        return "OK";
+    }
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -81,12 +90,12 @@ public class AuthController {
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
-
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
+
 
         // Create new user's account
         User user = new User(signUpRequest.getUsername(),
@@ -109,7 +118,7 @@ public class AuthController {
                         roles.add(adminRole);
 
                         break;
-                    case "mod":
+                    case "expert":
                         Role modRole = roleRepository.findByName(ERole.ROLE_EXPERT)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(modRole);
