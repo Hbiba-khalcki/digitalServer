@@ -15,8 +15,6 @@ public class QuestionController {
     @Autowired
     private QuestionRepository questionRepository;
 
-
-
     // get all question
     @GetMapping
     public List<Question> getAllQuestions(){

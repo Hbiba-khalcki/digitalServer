@@ -39,7 +39,7 @@ public class ReponseController {
     public Reponse updateReponse(@RequestBody Reponse reponse, @PathVariable("id") String reponseId) {
         Reponse existingReponse = this.reponseRepository.findById(reponseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Reponse not found with id :" + reponseId));
-        existingReponse.setOrdrePriorite(reponse.getOrdrePriorite());
+        existingReponse.setPourcentage(reponse.getPourcentage());
         return this.reponseRepository.save(reponse);
     }
 

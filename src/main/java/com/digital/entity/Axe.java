@@ -20,5 +20,5 @@ public class Axe {
     private int degreImportance ;
 
     @DBRef(lazy = true)
-    private List<Question> question;
+    private List<Question> questions;
 }

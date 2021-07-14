@@ -13,6 +13,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Reponse {
     @Id
     private String id ;
-    private int OrdrePriorite ;
+    private int pourcentage ;
+    private String contenu;
+    private int numReponse;
 
 }
