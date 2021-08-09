@@ -1,12 +1,13 @@
 package com.digital.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-
+import org.springframework.data.mongodb.core.mapping.Field;
+import javax.persistence.Id;
 import java.util.List;
 
 @Data
@@ -14,9 +15,12 @@ import java.util.List;
 @NoArgsConstructor
 @Document(collection = "axe")
 public class Axe {
+
     @Id
+    @Field("_id")
+    @JsonIgnore
     private String id;
-    private String NameAxe;
+    private String nameAxe;
     private int degreImportance ;
 
     @DBRef(lazy = true)
