@@ -67,6 +67,7 @@ public class AuthController {
                 userDetails.getEmail(),
                 roles));
     }
+
     @GetMapping("/bootstrap")
     public String bootstraprols(){
         Role role1 = new Role();
@@ -106,7 +107,7 @@ public class AuthController {
         Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+            Role userRole = roleRepository.findByName(ERole.ROLE_EXPERT)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
         } else {
@@ -131,10 +132,8 @@ public class AuthController {
                 }
             });
         }
-
         user.setRoles(roles);
         userRepository.save(user);
-
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 }
