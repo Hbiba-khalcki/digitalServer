@@ -1,5 +1,7 @@
 package com.digital.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +23,8 @@ public class Question {
 
     @Id
     @Field("_id")
-    private String id ;
+    @JsonSerialize(using = ToStringSerializer.class)
+    private ObjectId id ;
     private String contenu ;
     private String pourcentage;
     private int nbrReponse;

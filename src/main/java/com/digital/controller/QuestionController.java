@@ -3,6 +3,7 @@ package com.digital.controller;
 import com.digital.entity.Question;
 import com.digital.exception.ResourceNotFoundException;
 import com.digital.repository.QuestionRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +25,8 @@ public class QuestionController {
     }
     // get question by id
     @GetMapping("/{id}")
-    public Optional<Question> getQuestionById(@PathVariable(value = "id") String questionId){
-        // je reviens
-        return this.questionRepository.findById(questionId);
+    public Question getQuestionById(@PathVariable(value = "id") String questionId){
+        return this.questionRepository.findById(questionId).get();
     }
 
     // create question
