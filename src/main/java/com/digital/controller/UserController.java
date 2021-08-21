@@ -1,5 +1,7 @@
 package com.digital.controller;
+import com.digital.entity.Question;
 import com.digital.entity.User;
+import com.digital.exception.ResourceNotFoundException;
 import com.digital.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -20,14 +22,4 @@ public class UserController {
         return this.userRepository.findAll();
     }
 
-
-
-
-
-    @RequestMapping(value = "editProfile", method = RequestMethod.PUT)
-    public String editProfilePage(User user)  {
-
-
-        return "editProfile";
-    }
 }

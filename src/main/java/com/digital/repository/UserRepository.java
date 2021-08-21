@@ -1,6 +1,4 @@
 package com.digital.repository;
-
-
 import com.digital.entity.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -13,4 +11,8 @@ public interface UserRepository extends MongoRepository<User,  Long> {
     Boolean existsByUsername(String username);
 
     Boolean existsByEmail(String email);
+
+    User findById(String id);
+
+    User save(User user);
 }

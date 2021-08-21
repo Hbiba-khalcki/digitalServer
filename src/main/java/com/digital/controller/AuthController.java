@@ -1,5 +1,4 @@
 package com.digital.controller;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,7 +23,6 @@ import com.digital.payload.response.JwtResponse;
 import com.digital.payload.response.MessageResponse;
 import com.digital.repository.RoleRepository;
 import com.digital.repository.UserRepository;
-
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -53,7 +51,7 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-         String jwt = jwtUtils.generateJwtToken(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities()
@@ -69,7 +67,7 @@ public class AuthController {
     }
 
     @GetMapping("/bootstrap")
-    public String bootstraprols(){
+    public String bootstraprols() {
         Role role1 = new Role();
         role1.setId("1");
         role1.setName(ERole.ROLE_ADMIN);
@@ -84,6 +82,7 @@ public class AuthController {
         roleRepository.save(role3);
         return "OK";
     }
+
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -97,7 +96,6 @@ public class AuthController {
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
 
-
         // Create new user's account
         User user = new User(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
@@ -107,7 +105,7 @@ public class AuthController {
         Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {
-            Role userRole = roleRepository.findByName(ERole.ROLE_EXPERT)
+            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
         } else {
@@ -136,4 +134,19 @@ public class AuthController {
         userRepository.save(user);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
+
+    /* @RequestMapping(value = "editProfile", method = RequestMethod.PUT)
+    public ResponseEntity<?> editProfilePage(@RequestBody User user) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //return ResponseEntity.ok(new MessageResponse("User registered successfully!" + user.toString()));
+
+        String username = userDetails.getUsername();
+        User existingUser = this.userRepository.findByUsername(username).get();
+        existingUser.setPrenom(user.getPrenom());
+        existingUser.setNom(user.getNom());
+        existingUser.setRoleEntr(user.getRoleEntrp());
+        userRepository.save(existingUser);
+        return ResponseEntity.ok(new MessageResponse("User registered successfully!" ));
+
+    }*/
 }
