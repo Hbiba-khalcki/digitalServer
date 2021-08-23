@@ -15,19 +15,19 @@ import java.util.List;
 @Document(collection = "entreprise")
 
 public class Entreprise {
-
     @Id
     @Field("_id")
     @JsonIgnore
     private String id ;
+    private String userId;
     private String nom ;
     private String type ;
-    private List<String> secteur_Activité;
+    private List<String> secteur_Activite;
     private String siteWeb;
-    private String adresse ;
-    private String familie_Ent ;
-    private Date année_const ;
-    private String stade_developpement  ;
-    private int nb_employé;
-    private String revenu ;
+    private String adresse;
+    private String familie_Ent;
+    private Date annee_const;
+    private String stade_developpement ;
+    private int nb_employe;
+    private String revenu;
 }

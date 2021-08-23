@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/entreprise")
 public class EntrepriseController {
     @Autowired
@@ -34,7 +35,7 @@ public class EntrepriseController {
         return this.entrepriseRepository.save(entreprise);
     }
 
-    // update entreprise
+    /* update entreprise
     @PutMapping("/{id}")
     public Entreprise updateEntreprise(@RequestBody Entreprise entreprise, @PathVariable("id") String entrepriseId) {
         Entreprise existingEntreprise = this.entrepriseRepository.findById(entrepriseId)
@@ -46,12 +47,12 @@ public class EntrepriseController {
         existingEntreprise.setSiteWeb(entreprise.getSiteWeb());
         existingEntreprise.setAdresse(entreprise.getAdresse());
         existingEntreprise.setFamilie_Ent(entreprise.getFamilie_Ent());
-        existingEntreprise.setAnnée_const(entreprise.getAnnée_const());
+        existingEntreprise.setAnnee_const(entreprise.getAnnee_const());
         existingEntreprise.setStade_developpement(entreprise.getStade_developpement());
-        existingEntreprise.setNb_employé(entreprise.getNb_employé());
+        existingEntreprise.setNb_employe(entreprise.getNb_employe());
         existingEntreprise.setRevenu(entreprise.getRevenu());
         return this.entrepriseRepository.save(entreprise);
-    }
+    }*/
 
     // delete entreprise by id
     @DeleteMapping("/{id}")

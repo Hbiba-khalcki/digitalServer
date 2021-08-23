@@ -1,10 +1,13 @@
 package com.digital.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.mongodb.lang.Nullable;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.persistence.*;
@@ -13,23 +16,27 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Document
 public class User {
 
     @Id
     @Field("_id")
-    //@JsonIgnore
-    private String  id;
+    @JsonSerialize(using = ToStringSerializer.class)
+    private ObjectId id;
 
     @Nullable
     private String nom;
+
     @Nullable
     private String prenom;
+
     @Nullable
-    private  String roleEntrp;
-    
+    private  String roleentrp;
+
     @NotBlank
     @Size(max = 20)
     private String username;
@@ -65,11 +72,11 @@ public class User {
     }
 
     public User(@Nullable String nom, @Nullable String prenom,
-                @Nullable String roleEntrp, String username,
+                @Nullable String roleentrp, String username,
                 String email, String password, String address, String telephone) {
         this.nom = nom;
         this.prenom = prenom;
-        this.roleEntrp = roleEntrp;
+        this.roleentrp = roleentrp;
         this.username = username;
         this.email = email;
         this.password = password;
@@ -84,6 +91,4 @@ public class User {
         this.roles = roles;
     }
 
-    public void setRoleEntr(String roleEntrp) {
-    }
 }

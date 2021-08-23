@@ -15,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import com.digital.payload.request.LoginRequest;
@@ -60,7 +61,7 @@ public class AuthController {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getId(),
+                userDetails.getId().toString(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
                 roles));
@@ -135,7 +136,7 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
-    /* @RequestMapping(value = "editProfile", method = RequestMethod.PUT)
+    @RequestMapping(value = "editProfile", method = RequestMethod.PUT)
     public ResponseEntity<?> editProfilePage(@RequestBody User user) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //return ResponseEntity.ok(new MessageResponse("User registered successfully!" + user.toString()));
@@ -144,9 +145,18 @@ public class AuthController {
         User existingUser = this.userRepository.findByUsername(username).get();
         existingUser.setPrenom(user.getPrenom());
         existingUser.setNom(user.getNom());
-        existingUser.setRoleEntr(user.getRoleEntrp());
+        existingUser.setRoleentrp(user.getRoleentrp());
         userRepository.save(existingUser);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!" ));
 
-    }*/
+    }
+
+    @RequestMapping(value = "getuser", method = RequestMethod.GET)
+    public ResponseEntity<?> getuser() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        User existingUser = this.userRepository.findByUsername(username).get();
+        return ResponseEntity.ok(existingUser);
+
+    }
 }

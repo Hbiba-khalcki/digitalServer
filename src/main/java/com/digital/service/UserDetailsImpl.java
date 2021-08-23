@@ -15,8 +15,6 @@ public class UserDetailsImpl implements UserDetails {
 
     @Id
     @Field("_id")
-    @JsonIgnore
-
     private String id;
 
     private String username;
@@ -43,7 +41,7 @@ public class UserDetailsImpl implements UserDetails {
                 .collect(Collectors.toList());
 
         return new UserDetailsImpl(
-                user.getId(),
+                user.getId().toString(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
