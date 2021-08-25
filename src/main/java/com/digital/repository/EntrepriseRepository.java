@@ -10,4 +10,5 @@ public interface EntrepriseRepository  extends MongoRepository<Entreprise, Strin
     Optional<Entreprise> findByUserId(String userId);
 
 
+
 }
