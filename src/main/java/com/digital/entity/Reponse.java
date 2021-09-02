@@ -16,5 +16,6 @@ public class Reponse {
     private int pourcentage ;
     private String contenu;
     private int numReponse;
+    private String qstId;
 
 }

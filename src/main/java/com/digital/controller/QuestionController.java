@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin("*")
@@ -21,7 +23,11 @@ public class QuestionController {
     // get all question
     @GetMapping
     public List<Question> getAllQuestions(){
-        return this.questionRepository.findAll();
+
+        List<Question> questions_list = this.questionRepository.findAll();
+        return questions_list.stream()
+                .sorted(Comparator.comparing(Question::getaxename))
+                .collect(Collectors.toList());
     }
     // get question by id
     @GetMapping("/{id}")
@@ -32,7 +38,6 @@ public class QuestionController {
     // create question
     @PostMapping
     public Question createQuestion(@RequestBody Question question) {
-
         return this.questionRepository.save(question);
     }
 

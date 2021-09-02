@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -28,11 +30,24 @@ public class ReponseController {
         return this.reponseRepository.findById(reponseId)
                 .orElseThrow(()-> new ResourceNotFoundException(" reponse not found whith id :" +reponseId));
     }
+
+    // get reponse by questionIdd
+    @GetMapping("/question/{id}")
+    public List<Reponse> getReponseByQstId(@PathVariable(value = "id") String questionId){
+        return this.reponseRepository.findByQstId(questionId);
+    }
     
     // create Reponse
     @PostMapping
-    public Reponse createReponse(@RequestBody Reponse reponse) {
-        return this.reponseRepository.save(reponse);
+    public HashMap createReponse(@RequestBody Reponse[] reponses) {
+        HashMap<String,ArrayList<Reponse>> response = new HashMap();
+        ArrayList<Reponse> lr = new ArrayList<Reponse>();
+        for (Reponse reponse: reponses) {
+            Reponse rep = this.reponseRepository.save(reponse);
+            lr.add(rep);
+        }
+        response.put("save",lr);
+        return response;
     }
 
     // update Reponse

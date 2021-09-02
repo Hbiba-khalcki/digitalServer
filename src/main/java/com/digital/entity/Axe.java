@@ -18,7 +18,6 @@ public class Axe {
 
     @Id
     @Field("_id")
-    @JsonIgnore
     private String id;
     private String nameAxe;
     private int degreImportance ;

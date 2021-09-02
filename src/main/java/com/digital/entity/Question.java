@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
+import java.util.Locale;
 
 
 @Data
@@ -31,4 +32,12 @@ public class Question {
     private Axe axe;
     @DBRef(lazy = true)
     private List<Reponse> reponses;
+
+    public int getaxename(){
+        if(this.axe != null) {
+            return this.axe.getDegreImportance();
+        } else {
+            return 0;
+        }
+    }
 }
