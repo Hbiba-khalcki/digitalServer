@@ -32,10 +32,18 @@ public class EntrepriseController {
     }
 
     // get entreprise by id
-    @GetMapping("/{id}")
-    public Entreprise getEntrepriseById(@PathVariable(value = "id") String entrepriseId){
-        return this.entrepriseRepository.findById(entrepriseId)
-                .orElseThrow(()-> new ResourceNotFoundException(" entreprise not found whith id :" +entrepriseId));
+    @GetMapping("/single")
+    public Entreprise getEntrepriseByUser(){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        User existingUser = this.userRepository.findByUsername(username).get();
+        Entreprise existingEntreprise =  new Entreprise();
+        Optional<Entreprise> existingEntrepriseo = this.entrepriseRepository.findByUserId(existingUser.getId().toString());
+
+        if(existingEntrepriseo.isPresent()){
+            existingEntreprise = existingEntrepriseo.get();
+        }
+        return existingEntreprise;
     }
 
     // create entreprise
