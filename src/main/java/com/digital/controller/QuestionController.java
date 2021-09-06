@@ -25,8 +25,9 @@ public class QuestionController {
     public List<Question> getAllQuestions(){
 
         List<Question> questions_list = this.questionRepository.findAll();
+        // get degre d'importance de l'axe  et afficher les qst selon le degr deimpo de son axe
         return questions_list.stream()
-                .sorted(Comparator.comparing(Question::getaxename))
+                .sorted(Comparator.comparing(Question::getdegreimportance))
                 .collect(Collectors.toList());
     }
     // get question by id

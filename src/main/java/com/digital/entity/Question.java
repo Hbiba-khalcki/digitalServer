@@ -32,8 +32,7 @@ public class Question {
     private Axe axe;
     @DBRef(lazy = true)
     private List<Reponse> reponses;
-
-    public int getaxename(){
+    public int getdegreimportance(){
         if(this.axe != null) {
             return this.axe.getDegreImportance();
         } else {

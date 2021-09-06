@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface ReponseClientRepository  extends MongoRepository<ReponseClient, String> {
 
     ReponseClient findById(ObjectId id);
-    Optional<ReponseClient> findByIdUserAndAndIdQuestion(String IdUser, String IdQuestion);
+    Optional<ReponseClient> findByIdUserAndIdQuestion(String IdUser, String IdQuestion);
 }

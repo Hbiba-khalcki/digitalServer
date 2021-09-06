@@ -52,7 +52,7 @@ public class EntrepriseController {
         return this.entrepriseRepository.save(entreprise);
     }
 
-    //update entreprise
+    //update entreprise avec user connecte si exist si nn cree nouvelle entreprise
     @PutMapping("")
     public ResponseEntity<?>  updateEntreprise(@RequestBody Entreprise entreprise) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -84,7 +84,7 @@ public class EntrepriseController {
     }
 
 
-
+// get user connecte
     @RequestMapping(value = "getuser", method = RequestMethod.GET)
     public ResponseEntity<?> getuser() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

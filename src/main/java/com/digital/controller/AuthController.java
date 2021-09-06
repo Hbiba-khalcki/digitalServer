@@ -66,7 +66,7 @@ public class AuthController {
                 userDetails.getEmail(),
                 roles));
     }
-
+// ajouter les roles principal
     @GetMapping("/bootstrap")
     public String bootstraprols() {
         Role role1 = new Role();
@@ -135,11 +135,10 @@ public class AuthController {
         userRepository.save(user);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
-
+// get user connecte and edit
     @RequestMapping(value = "editProfile", method = RequestMethod.PUT)
     public ResponseEntity<?> editProfilePage(@RequestBody User user) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        //return ResponseEntity.ok(new MessageResponse("User registered successfully!" + user.toString()));
 
         String username = userDetails.getUsername();
         User existingUser = this.userRepository.findByUsername(username).get();
@@ -150,7 +149,7 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!" ));
 
     }
-
+// get user connecte
     @RequestMapping(value = "getuser", method = RequestMethod.GET)
     public ResponseEntity<?> getuser() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

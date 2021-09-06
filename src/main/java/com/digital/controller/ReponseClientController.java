@@ -23,12 +23,13 @@ public class ReponseClientController {
     @Autowired
     UserRepository userRepository;
 
+    // get reponseClient by userId and questionId
     @GetMapping("/{id}")
-    public Object getQuestionById(@PathVariable(value = "id") String questionId){
+    public Object getreponseClient(@PathVariable(value = "id") String questionId){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
         User existingUser = this.userRepository.findByUsername(username).get();
-        Optional<ReponseClient> existingReponseClientO = this.reponseClientRepository.findByIdUserAndAndIdQuestion(existingUser.getId().toString(),questionId);
+        Optional<ReponseClient> existingReponseClientO = this.reponseClientRepository.findByIdUserAndIdQuestion(existingUser.getId().toString(),questionId);
         if(existingReponseClientO.isPresent()){
             return(existingReponseClientO.get());
         } else{
@@ -36,13 +37,15 @@ public class ReponseClientController {
         }
     }
 
+    // create reponseClient for user-question-reponse and update if exist
+
     @PostMapping("/{id}")
     public ReponseClient createClientRepository(@PathVariable(value = "id") String questionId,
                                                 @RequestBody ReponseClient reponseClient) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
         User existingUser = this.userRepository.findByUsername(username).get();
-        Optional<ReponseClient> existingReponseClientO = this.reponseClientRepository.findByIdUserAndAndIdQuestion(existingUser.getId().toString(),questionId);
+        Optional<ReponseClient> existingReponseClientO = this.reponseClientRepository.findByIdUserAndIdQuestion(existingUser.getId().toString(),questionId);
         if(existingReponseClientO.isPresent()){
             ReponseClient existingReponseClient = existingReponseClientO.get();
             existingReponseClient.setIdReponse(reponseClient.getIdReponse());
