@@ -1,10 +1,12 @@
 package com.digital.controller;
 
+import com.digital.entity.Axe;
 import com.digital.entity.Question;
 import com.digital.exception.ResourceNotFoundException;
 import com.digital.repository.QuestionRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,11 +33,11 @@ public class QuestionController {
                 .collect(Collectors.toList());
     }
     // get question by id
-    @GetMapping("/{id}")
-    public Question getQuestionById(@PathVariable(value = "id") String questionId){
-        return this.questionRepository.findById(questionId).get();
-    }
 
+    @GetMapping("/{id}")
+    public Optional<Question> getQuestionById(@PathVariable(value = "id") String id) {
+        return this.questionRepository.findById(id);
+    }
     // create question
     @PostMapping
     public Question createQuestion(@RequestBody Question question) {
@@ -43,23 +45,29 @@ public class QuestionController {
     }
 
     // update question
-   /* @PutMapping("/{id}")
+    @PutMapping("/{id}")
     public Question updateQuestion(@RequestBody Question question, @PathVariable("id") String questionId) {
         Question existingQuestion = this.questionRepository.findById(questionId)
                 .orElseThrow(() -> new ResourceNotFoundException("question not found with id :" + questionId));
         existingQuestion.setContenu(question.getContenu());
-        existingQuestion.setNumQst(question.getNumQst());
+        existingQuestion.setPourcentage((question.getPourcentage()));
+        existingQuestion.setReponses(question.getReponses());
+        existingQuestion.setAxe(question.getAxe());
         return this.questionRepository.save(question);
-    }*/
+    }
 
     // delete question by id
     @DeleteMapping("/{id}")
-    public ResponseEntity<Question> deleteQuestion(@PathVariable("id") String questionId) {
-        Question existingQuestion = this.questionRepository.findById(questionId)
-                .orElseThrow(() -> new ResourceNotFoundException("question not found with id :" + questionId));
-        this.questionRepository.delete(existingQuestion);
-        return ResponseEntity.ok().build();
+    public ResponseEntity deleteQuestion(@PathVariable("id") String id) {
+        try {
+            System.out.println(id);
+            this.questionRepository.deleteById(id);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
 
 
 }

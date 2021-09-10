@@ -1,9 +1,13 @@
 package com.digital.entity;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 
 @Data
@@ -11,8 +15,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Document(collection = "reponse")
 public class Reponse {
+
     @Id
-    private String id ;
+    @Field("_id")
+    @JsonSerialize(using = ToStringSerializer.class)
+    private ObjectId id ;
     private int pourcentage ;
     private String contenu;
     private int numReponse;

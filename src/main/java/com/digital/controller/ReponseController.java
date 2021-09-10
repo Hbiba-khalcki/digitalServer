@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -38,13 +39,27 @@ public class ReponseController {
     }
     
     // create Reponse
-    @PostMapping
+    @PutMapping
     public HashMap createReponse(@RequestBody Reponse[] reponses) {
         HashMap<String,ArrayList<Reponse>> response = new HashMap();
         ArrayList<Reponse> lr = new ArrayList<Reponse>();
         for (Reponse reponse: reponses) {
+            if(reponse.getId() != null) {
+                Optional<Reponse> existentrepo = this.reponseRepository.findById(reponse.getId().toString());
+                if (existentrepo.isPresent()) {
+                    Reponse existentrep = existentrepo.get();
+                    existentrep.setContenu(reponse.getContenu());
+                    existentrep.setPourcentage(reponse.getPourcentage());
+                    Reponse rep = this.reponseRepository.save(existentrep);
+                    lr.add(rep);
+                } else {
+                    Reponse rep = this.reponseRepository.save(reponse);
+                    lr.add(rep);
+                }
+            } else {
             Reponse rep = this.reponseRepository.save(reponse);
             lr.add(rep);
+        }
         }
         response.put("save",lr);
         return response;

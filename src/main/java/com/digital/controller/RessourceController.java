@@ -4,6 +4,7 @@ import com.digital.entity.Ressource;
 import com.digital.exception.ResourceNotFoundException;
 import com.digital.repository.RessourceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,12 +50,17 @@ public class RessourceController {
         return this.ressourceRepository.save(ressource);
     }
 
-    // delete ressource by id
+
+
+    // delete question by id
     @DeleteMapping("/{id}")
-    public ResponseEntity<Ressource> deleteRessource(@PathVariable("id") String ressourceId) {
-        Ressource existingRessource = this.ressourceRepository.findById(ressourceId)
-                .orElseThrow(() -> new ResourceNotFoundException("ressource not found with id :" + ressourceId));
-        this.ressourceRepository.delete(existingRessource);
-        return ResponseEntity.ok().build();
+    public ResponseEntity deleteQuestion(@PathVariable("id") String id) {
+        try {
+            System.out.println(id);
+            this.ressourceRepository.deleteById(id);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

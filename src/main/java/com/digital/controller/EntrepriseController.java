@@ -23,8 +23,6 @@ public class EntrepriseController {
     @Autowired
     private UserRepository userRepository;
 
-
-
     // get all entreprise
     @GetMapping
     public List<Entreprise> getAllEntreprises(){

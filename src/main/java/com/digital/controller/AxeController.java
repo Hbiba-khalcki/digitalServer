@@ -1,35 +1,34 @@
 package com.digital.controller;
 
 import com.digital.entity.Axe;
-
 import com.digital.exception.ResourceNotFoundException;
 import com.digital.repository.AxeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/axe")
-public class AxeController  {
-    @Autowired AxeRepository axeRepository;
+
+public class AxeController {
+    @Autowired
+    AxeRepository axeRepository;
 
     // get all Axe
     @GetMapping
-    public List<Axe> getAllAxes(){
+    public List<Axe> getAllAxes() {
         return this.axeRepository.findAll();
     }
 
     // get Axe  by id
     @GetMapping("/{id}")
-    public Axe getAxeById(@PathVariable(value = "id") String axeId){
-        return this.axeRepository.findById(axeId)
-                .orElseThrow(()-> new ResourceNotFoundException(" axe not found whith id :" +axeId));
+    public Optional<Axe> getAxeById(@PathVariable(value = "id") String id) {
+        return this.axeRepository.findById(id);
     }
-
-
 
     // create Axe
     @PostMapping
@@ -47,12 +46,14 @@ public class AxeController  {
         return this.axeRepository.save(axe);
     }
 
-    // delete Axe  by id
     @DeleteMapping("/{id}")
-    public ResponseEntity<Axe> deleteAxe(@PathVariable("id") String axeId) {
-        Axe existingReponse = this.axeRepository.findById(axeId)
-                .orElseThrow(() -> new ResourceNotFoundException("axe not found with id :" + axeId));
-        this.axeRepository.delete(existingReponse);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") String id) {
+        try {
+            this.axeRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 }
