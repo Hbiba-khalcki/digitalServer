@@ -44,7 +44,7 @@ public class ReponseController {
         HashMap<String,ArrayList<Reponse>> response = new HashMap();
         ArrayList<Reponse> lr = new ArrayList<Reponse>();
         for (Reponse reponse: reponses) {
-            if(reponse.getId() != null) {
+            if(reponse != null &&reponse.getId() != null) {
                 Optional<Reponse> existentrepo = this.reponseRepository.findById(reponse.getId().toString());
                 if (existentrepo.isPresent()) {
                     Reponse existentrep = existentrepo.get();

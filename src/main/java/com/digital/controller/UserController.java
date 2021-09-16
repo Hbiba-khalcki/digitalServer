@@ -78,8 +78,6 @@ public class UserController {
             }catch (Exception e){
                 HashMap<String,String> err = new HashMap<>();
                 err.put("err",e.getMessage());
-                result.put("err",err);
-                return result;
             }
         }
         result.put("totals",totals);
